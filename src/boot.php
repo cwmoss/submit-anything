@@ -15,6 +15,6 @@ $dotenv->load();
 $dsn = $_SERVER["XSTORE_DB"];
 
 
-$db = $db = \ParagonIE\EasyDB\Factory::fromArray(url_to_pdo_dsn($dsn));
+$db = \ParagonIE\EasyDB\Factory::fromArray(url_to_pdo_dsn($dsn));
 
 return ['db'=>$db];
