@@ -26,4 +26,10 @@ you see, it's very experimental
 
 i'd like to know, how mysql performs in terms of table with json field vs. new xdevapi/ document store
 
+### managing api
+
+#### create org
+
 	 curl -v -X POST http://acme.com/submit-anything/manage/org/create/acme -H "x-any-admin: secret"
+
+	 => {"name":"acme","password":"XbRQvaE3gm6eL##","api_key":"c56c61505a7abbd9d0d5a975e8d59ec08da0cbc1b3517e3f180978a07eb59a69","types":"{}"}
