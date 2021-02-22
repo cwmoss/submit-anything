@@ -45,3 +45,22 @@ function url_to_pdo_dsn($url){
     ];
 }
 
+function gen_secret(){
+  return bin2hex(random_bytes(32));
+}
+
+function gen_password($len=15){
+  $chars =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
+            '0123456789-!?@#$%#';
+
+  $str = '';
+  $max = strlen($chars) - 1;
+
+  for ($i=0; $i < $len; $i++)
+    $str .= $chars[random_int(0, $max)];
+
+  return $str;
+}
+/*
+password_verify ( string $password , string $hash )
+*/

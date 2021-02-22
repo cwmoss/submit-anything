@@ -1,6 +1,6 @@
 <?php
 use api\submission;
-
+use api\org;
 
 // list($post, $raw) = get_json_req();
 $data = get_json_req();
@@ -8,7 +8,6 @@ $data = get_json_req();
 //$req = ['conf' => ['h'=>$hasura, 'e'=>$search], 'hdrs'=>$_SERVER, 'get'=>$_GET];
 
 dbg("+++ incoming +++ ");
-// dbg("hasura", $hasura);
 
 error_reporting(E_ALL & ~E_NOTICE);
 
@@ -39,6 +38,39 @@ $router->mount('/submission', function() use ($router, $conf, $data) {
   });
 
 });
+
+
+$router->before('GET|POST', '/manage/.*', function() use ($router, $conf, $data) {
+  $hdrs = $router->getRequestHeaders();
+
+  if(!$hdrs['x-any-admin'] || ($hdrs['x-any-admin']!=$_SERVER["XSTORE_ADMIN"])){
+    dbg("+++ 401 +++ ");
+
+    header("HTTP/1.1 401 Unauthorized");
+    resp(['res'=>'fail', 'msg'=>'Unauthorized']);
+
+    exit;
+  }
+});
+
+$router->mount('/manage', function() use ($router, $conf, $data) {
+  
+  dbg("+++ manage +++ ");
+  
+
+  $api = new org($conf['db']);
+  
+  $router->post('/org/(\w+)/([-\w\d]+)', function($meth, $name) use($api, $hdrs, $data) {
+
+      $data = get_json_req();
+      
+      dbg("method: $meth", $name, $data);
+      resp($api->$meth($name, $data, $hdrs));
+  });
+
+});
+
+dbg("+++ setup  +++ ");
 
 $router->set404(function() {
     header('HTTP/1.1 404 Not Found');

@@ -25,3 +25,5 @@ hmm, ok, now that we can post anything to the bucket, how is it going on from he
 you see, it's very experimental
 
 i'd like to know, how mysql performs in terms of table with json field vs. new xdevapi/ document store
+
+	 curl -v http://acme.com/submit-anything/manage/create/acme -H "x-any-admin: secret"
